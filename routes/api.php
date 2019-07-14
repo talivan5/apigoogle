@@ -16,3 +16,32 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+//Route::apiResource('shops', 'ShopController');
+Route::post('shops', function () {
+
+
+        $center=request('center');
+        $lat=$center['lat'];
+        $lng=$center['lng'];
+
+        $distance=request('radius')??200;
+
+        $results = DB::select(DB::raw('SELECT *, ( 3959 * acos( cos( radians(' . $lat . ') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians(lat) ) ) ) AS distance FROM shops HAVING distance < ' . $distance . ' ORDER BY distance') );
+        $markers = collect($results)->map(function ($item, $key) {
+            return [
+                'position' => ['lat' => $item->lat, 'lng' => $item->lng],
+                'name'=>$item->name
+            ];
+        });
+        $formattedResults = collect($results)->map(function ($item, $key) {
+            return [
+                'text'=>$item->name
+            ];
+        });
+        $data=[
+            'status'=>'success',
+            'markers'=>$markers,
+            'results'=>$formattedResults
+        ];
+        return response($data,200);
+    });
