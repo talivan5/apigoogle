@@ -79331,6 +79331,7 @@ Vue.use(vue2_google_maps__WEBPACK_IMPORTED_MODULE_1__, {
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('place-search', __webpack_require__(/*! ./components/PlaceSearchComponente.vue */ "./resources/js/components/PlaceSearchComponente.vue")["default"]);
+Vue.component('registro-component', __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module './components/RegistroComponent.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()))["default"]);
 Vue.component('results', __webpack_require__(/*! ./components/ResultsComponente.vue */ "./resources/js/components/ResultsComponente.vue"));
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -40,7 +40,7 @@ Vue.use(VueGoogleMaps,{
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('place-search', require('./components/PlaceSearchComponente.vue').default);
-
+Vue.component('registro-component', require('./components/RegistroComponent.vue').default);
 
 Vue.component('results', require('./components/ResultsComponente.vue'));
 /**
