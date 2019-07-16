@@ -7,7 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Shop::class, function (Faker $faker) {
     return [
-        'name'=>$faker->company,
+        'name'=> $faker->unique()->name,
+        //'name'=>$faker->company,
         'descripcion'=>$faker->text(200),
         'city'=>$faker->city,
         'address'=>$faker->address,

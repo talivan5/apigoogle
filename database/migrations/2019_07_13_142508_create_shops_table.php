@@ -21,6 +21,7 @@ class CreateShopsTable extends Migration
             $table->string('city',50)->nullable();
             $table->float('lat',10,6)->nullable();
             $table->float('lng',10,6)->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
