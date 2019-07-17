@@ -14,7 +14,9 @@ class ShopController extends Controller
      */
     public function index()
     {
+        $shops=Shop::orderBy('id', 'DESC')->get();
         
+        return response()->json($shops);
     }
 
     /**
@@ -44,9 +46,24 @@ class ShopController extends Controller
      * @param  \App\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function show(Shop $shop)
+    public function show($id)
     {
-        //
+        //crear
+        try {
+            $shop = Shop::findOrFail($id);
+
+            return response()->json([
+                'status' => true,
+                'response' => [
+                    'data' => $shop
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'slug' => 'NOT_FOUND'
+            ], 404);
+        }
     }
 
     /**
@@ -55,9 +72,10 @@ class ShopController extends Controller
      * @param  \App\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shop $shop)
+    public function edit($id)
     {
-        //
+        $shops=Shop::findOrFail($id);
+        return $shops;
     }
 
     /**
@@ -67,10 +85,40 @@ class ShopController extends Controller
      * @param  \App\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Shop $shop)
+    public function update(Request $request, $id)
     {
         //
+        try {
+            $shop = Shop::findOrFail($id);
+
+        } catch(\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'slug' => 'NOT_FOUND'
+            ], 404);
+        }
+
+        $shop->name        = $request->name;
+        $shop->descripcion = $request->descripcion;
+        $shop->address     = $request->address;
+        $shop->city        = $request->city;
+        $shop->lat         = $request->lat;
+        $shop->lng         = $request->lng;
+
+        if($shop->save()){
+            return response()->json([
+                'status' => true,
+                'response' =>[
+                    'id' => $shop->id
+                ]
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'slug' => 'DATA_CANNOT_BE_UPDATED'
+        ], 500);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +126,30 @@ class ShopController extends Controller
      * @param  \App\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shop $shop)
+    public function destroy($id)
     {
-        //
+        try {
+            $shop = Shop::findOrFail($id);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'slug' => 'NOT_FOUND'
+            ], 404);
+        }
+
+        if($shop->delete()){
+            return response()->json([
+                'status' => true
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'slug' => 'DATA_CANNOT_BE_DELETE'
+            ]);
+        }
+
+    }
+    public function listar(){
+        return view('home');
     }
 }

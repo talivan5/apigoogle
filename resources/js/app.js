@@ -39,16 +39,29 @@ Vue.use(VueGoogleMaps,{
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('place-search', require('./components/PlaceSearchComponente.vue').default);
+Vue.component('placeSearch-component', require('./components/PlaceSearchComponent.vue').default);
 Vue.component('registro-component', require('./components/RegistroComponent.vue').default);
+Vue.component('modal-component', require('./components/ModalComponent.vue').default);
 
-Vue.component('results', require('./components/ResultsComponente.vue'));
+Vue.component('results', require('./components/ResultsComponent.vue'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+import example from './components/ExampleComponent';
+import placeSearch from './components/PlaceSearchComponent';
+import registro from './components/PlaceSearchComponent';
+import modal from './components/ModalComponent';
 
 const app = new Vue({
     el: '#app',
+    component:{
+        /*ingresar el nombre se su componente despues de los dos puntos*/
+       example,
+       placeSearch,
+       registro,
+       modal
+       
+    }
 });
