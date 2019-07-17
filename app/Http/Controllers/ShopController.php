@@ -37,7 +37,29 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = (object) $request->all();
+
+        $shop = new Shop();
+
+        $shop->name        = $request->name;
+        $shop->descripcion = $request->descripcion;
+        $shop->address     = $request->address;
+        $shop->city        = $request->city;
+        $shop->lat         = $request->lat;
+        $shop->lng         = $request->lng;
+              
+        if($shop->save()){
+            return response()->json([
+                'status'   => true,
+                'response' => [
+                    'id' => $shop->id
+                ]
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'slug' => 'DATA_CANNOT_BE_SAVED'
+        ], 500);
     }
 
     /**

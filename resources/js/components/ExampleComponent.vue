@@ -31,7 +31,7 @@
             
                     <!-- Modal crear -->
                 <form method="POST"  v-on:submit.prevent="crear">
-                 <div class="modal fade" id="create">
+                 <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -41,22 +41,40 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <label for="name">Nombre</label>
-                            <input type="text" name="name" class="form-control" v-model="name">
-                            <label for="descripcion">Descripcion</label>
-                            <input type="text" name="descripcion" class="form-control" v-model="descripcion">
-                            <label for="address">Dirección</label>
-                            <input type="text" name="address" class="form-control" v-model="address">
-                            <label for="city">Ciudad</label>
-                            <input type="text" name="city" class="form-control" v-model="city">
-                            <label for="lat">Latitud</label>
-                            <input type="number" name="lat" class="form-control" v-model="lat">
-                            <label for="lng">Longitud</label>
-                            <input type="number" name="lng" class="form-control" v-model="lng">
+                            <div class="form-group">
+                                <label for="name">Nombre</label>
+                                <input type="text" name="name" class="form-control" v-model="name">
+                            </div> 
+                            <div class="form-group">                           
+                                <label for="descripcion">Descripcion</label>
+                                <input type="text" name="descripcion" class="form-control" v-model="descripcion">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Dirección</label>
+                                <input type="text" name="address" class="form-control" v-model="address">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">Ciudad</label>
+                                <input type="text" name="city" class="form-control" v-model="city">
+                            </div>
+                            <div class="form-group">
+                                <label for="lat">Latitud</label>
+                                <input type="number" name="lat" class="form-control" v-model="lat">
+                            </div>
+                            <div class="form-group">
+                                <label for="lng">Longitud</label>
+                                <input type="number" name="lng" class="form-control" v-model="lng">
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar">
-                            <input type="submit" class="btn btn-primary" value="Guardar">
+                            <div class="row">
+                                <div class="col-sm-6 text-left">
+                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>Guardar</button>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-ban"></i>Cancelar</button>
+                                </div>
+                            </div>
                         </div>
                         </div>
                     </div>
@@ -198,21 +216,26 @@
             },
             crear(){
                 let me = this;           
-                var url = 'http://127.0.0.1:8000/api/shops';
-                axios.post(url,{
+                axios.post('http://127.0.0.1:8000/api/shops',
+                {
                     'name':me.name,
                     'descripcion':me.descripcion,
                     'address':me.address,
                     'city':me.city,
                     'lat':me.lat,
-                    'lng': me.lng,
+                    'lng': me.lng
                 }).then(response=> {
                     $('#create').modal('hide');
                     me.listar();
-                    me.errors = [];
+                    me.name='';
+                    me.descripcion='';
+                    me.address='';
+                    me.city='';
+                    me.lat='';
+                    me.lng='';
                 })
                 .catch(error => {
-                    this.errors = error.response.data
+                    me.errors = error.response.data
                 });
             },
             modificar(shop){
@@ -229,17 +252,22 @@
 
                 axios.put('http://127.0.0.1:8000/api/shops/'+ me.shop.id,
                 {
-                    'name':me.name,
-                    'descripcion':me.descripcion,
-                    'address':me.address,
-                    'city':me.city,
-                    'lat':me.lat,
-                    'lng': me.lng,
+                    'name':me.shop.name,
+                    'descripcion':me.shop.descripcion,
+                    'address':me.shop.address,
+                    'city':me.shop.city,
+                    'lat':me.shop.lat,
+                    'lng': me.shop.lng,
                 })
                 .then(response =>{
                     $('#edit').modal('hide');
                     me.listar();
-                    me.errors = [];
+                    me.name='';
+                    me.descripcion='';
+                    me.address='';
+                    me.city='';
+                    me.lat='';
+                    me.lng='';
                 })
                 .catch(error => {
                     me.errors = error.response.data
